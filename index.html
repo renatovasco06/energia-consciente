@@ -1,0 +1,965 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Energia Consciente</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f8f6;
+            color: #26352d;
+            line-height: 1.6;
+        }
+
+        header {
+            background: #145c3b;
+            color: white;
+            padding: 20px 7%;
+        }
+
+        .topo {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        nav {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        nav button {
+            background: transparent;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 15px;
+            border-radius: 6px;
+        }
+
+        nav button:hover,
+        nav button.ativo {
+            background: #287a50;
+        }
+
+        .hero {
+            padding: 75px 7%;
+            background: linear-gradient(120deg, #145c3b, #31885c);
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            max-width: 700px;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            max-width: 650px;
+            font-size: 18px;
+            margin-bottom: 25px;
+        }
+
+        .botao {
+            display: inline-block;
+            background: #e9bd43;
+            color: #203728;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 7px;
+            font-weight: bold;
+            text-decoration: none;
+            cursor: pointer;
+            font-size: 15px;
+            margin: 4px 4px 4px 0;
+        }
+
+        .botao:hover {
+            background: #f7d773;
+        }
+
+        main {
+            max-width: 1150px;
+            margin: auto;
+            padding: 35px 20px;
+        }
+
+        /*
+          IMPORTANTE:
+          Todas as páginas ficam escondidas por padrão.
+          Somente a página com a classe "ativa" aparece.
+        */
+        .pagina {
+            display: none !important;
+        }
+
+        .pagina.ativa {
+            display: block !important;
+            animation: aparecer 0.3s ease;
+        }
+
+        @keyframes aparecer {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            color: #145c3b;
+            font-size: 30px;
+            margin-bottom: 15px;
+        }
+
+        h3 {
+            color: #145c3b;
+            margin-bottom: 10px;
+        }
+
+        .introducao {
+            margin-bottom: 25px;
+            max-width: 850px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(
+                auto-fit,
+                minmax(220px, 1fr)
+            );
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .card {
+            background: white;
+            padding: 23px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px #0000000d;
+            border: 1px solid #e2ebe5;
+        }
+
+        .icone {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            margin-bottom: 10px;
+        }
+
+        .destaque {
+            background: #e1f2e7;
+            padding: 22px;
+            border-left: 5px solid #218653;
+            border-radius: 7px;
+            margin: 20px 0;
+        }
+
+        .calculadora {
+            max-width: 750px;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid #e2ebe5;
+            box-shadow: 0 3px 12px #0000000d;
+        }
+
+        .campo {
+            margin-bottom: 17px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #b9c9bf;
+            border-radius: 6px;
+            font-size: 16px;
+            background: white;
+        }
+
+        input:focus,
+        select:focus {
+            outline: 2px solid #31885c;
+            border-color: #31885c;
+        }
+
+        .resultado {
+            display: none;
+            background: #e1f2e7;
+            border-radius: 10px;
+            padding: 22px;
+            margin-top: 22px;
+        }
+
+        .resultado h3 {
+            font-size: 23px;
+        }
+
+        .valor {
+            font-size: 28px;
+            font-weight: bold;
+            color: #145c3b;
+            margin-bottom: 12px;
+        }
+
+        .nota {
+            color: #59685e;
+            font-size: 14px;
+            margin-top: 12px;
+        }
+
+        .link-externo {
+            color: #176c43;
+            font-weight: bold;
+            overflow-wrap: anywhere;
+        }
+
+        .link-externo:hover {
+            color: #0a3924;
+        }
+
+        footer {
+            background: #103e2a;
+            color: white;
+            text-align: center;
+            padding: 25px 15px;
+            margin-top: 30px;
+        }
+
+        footer p {
+            margin: 5px;
+        }
+
+        @media (max-width: 650px) {
+            .topo {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            nav {
+                gap: 4px;
+            }
+
+            nav button {
+                padding: 9px;
+                font-size: 14px;
+            }
+
+            .hero {
+                padding: 45px 6%;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            h2 {
+                font-size: 25px;
+            }
+
+            main {
+                padding: 25px 15px;
+            }
+
+            .calculadora {
+                padding: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="topo">
+            <div class="logo">⚡ Energia Consciente</div>
+
+            <nav aria-label="Menu principal">
+                <button type="button" class="ativo"
+                    data-pagina="inicio">Início</button>
+
+                <button type="button"
+                    data-pagina="conceito">Uso racional</button>
+
+                <button type="button"
+                    data-pagina="dicas">Dicas</button>
+
+                <button type="button"
+                    data-pagina="calculadora">Calculadora</button>
+
+                <button type="button"
+                    data-pagina="referencias">Referências</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- DESTAQUE DA PÁGINA INICIAL -->
+    <section class="hero" id="destaqueInicio">
+        <h1>Energia é essencial. Desperdício não.</h1>
+
+        <p>
+            Aprenda a utilizar a energia elétrica de forma consciente,
+            reduzir desperdícios e compreender quanto seus aparelhos
+            consomem no dia a dia.
+        </p>
+
+        <button type="button" class="botao"
+            onclick="abrirPagina('conceito')">
+            Conheça o uso racional
+        </button>
+
+        <button type="button" class="botao"
+            onclick="abrirPagina('calculadora')">
+            Calcule seu consumo
+        </button>
+    </section>
+
+    <main>
+
+        <!-- PÁGINA INICIAL -->
+        <section id="inicio" class="pagina ativa">
+            <h2>Bem-vindo à Energia Consciente!</h2>
+
+            <p class="introducao">
+                A energia elétrica está presente em praticamente todas
+                as atividades do nosso cotidiano. Utilizá-la de maneira
+                eficiente ajuda a evitar desperdícios e pode reduzir
+                os gastos com a conta de luz.
+            </p>
+
+            <div class="cards">
+
+                <article class="card">
+                    <div class="icone">💡</div>
+                    <h3>Aprenda</h3>
+
+                    <p>
+                        Entenda o que significa utilizar energia de
+                        maneira racional e eficiente.
+                    </p>
+
+                    <button type="button" class="botao"
+                        onclick="abrirPagina('conceito')">
+                        Saiba mais
+                    </button>
+                </article>
+
+                <article class="card">
+                    <div class="icone">🏠</div>
+                    <h3>Mude seus hábitos</h3>
+
+                    <p>
+                        Descubra atitudes simples para evitar
+                        desperdícios em casa.
+                    </p>
+
+                    <button type="button" class="botao"
+                        onclick="abrirPagina('dicas')">
+                        Ver dicas
+                    </button>
+                </article>
+
+                <article class="card">
+                    <div class="icone">🧮</div>
+                    <h3>Calcule seu consumo</h3>
+
+                    <p>
+                        Estime o consumo mensal e o custo de energia
+                        dos seus eletrodomésticos.
+                    </p>
+
+                    <button type="button" class="botao"
+                        onclick="abrirPagina('calculadora')">
+                        Abrir calculadora
+                    </button>
+                </article>
+
+            </div>
+
+            <div class="destaque">
+                <h3>Você sabia?</h3>
+
+                <p>
+                    O consumo de um aparelho depende principalmente
+                    de sua potência e do tempo em que permanece ligado.
+                    Conhecer esses fatores ajuda a entender a conta
+                    de energia.
+                </p>
+            </div>
+        </section>
+
+        <!-- PÁGINA: USO RACIONAL -->
+        <section id="conceito" class="pagina">
+            <h2>O que é uso racional de energia?</h2>
+
+            <p class="introducao">
+                O uso racional de energia elétrica consiste em utilizar
+                a energia de maneira consciente, evitando desperdícios
+                sem abrir mão das atividades essenciais e do conforto.
+            </p>
+
+            <div class="cards">
+                <article class="card">
+                    <div class="icone">⚡</div>
+                    <h3>Eficiência energética</h3>
+
+                    <p>
+                        Utilizar menos energia para realizar uma
+                        atividade, mantendo um resultado adequado.
+                    </p>
+                </article>
+
+                <article class="card">
+                    <div class="icone">💰</div>
+                    <h3>Economia financeira</h3>
+
+                    <p>
+                        Reduzir o consumo desnecessário pode diminuir
+                        os gastos com energia elétrica.
+                    </p>
+                </article>
+
+                <article class="card">
+                    <div class="icone">🌱</div>
+                    <h3>Meio ambiente</h3>
+
+                    <p>
+                        Evitar desperdícios contribui para o uso mais
+                        responsável dos recursos energéticos.
+                    </p>
+                </article>
+            </div>
+
+            <h3>Por que isso é importante?</h3>
+
+            <p>
+                A energia elétrica é essencial em residências,
+                empresas, hospitais, escolas e indústrias. Entretanto,
+                aparelhos ligados sem necessidade e equipamentos pouco
+                eficientes podem aumentar o consumo.
+            </p>
+
+            <div class="destaque">
+                <h3>Exemplo prático</h3>
+
+                <p>
+                    Apagar a luz ao sair de um cômodo quando ela não
+                    for necessária é uma atitude simples que evita
+                    consumo desnecessário.
+                </p>
+            </div>
+
+            <button type="button" class="botao"
+                onclick="abrirPagina('dicas')">
+                Conhecer dicas de economia
+            </button>
+        </section>
+
+        <!-- PÁGINA: DICAS -->
+        <section id="dicas" class="pagina">
+            <h2>Como economizar energia elétrica</h2>
+
+            <p class="introducao">
+                Pequenas mudanças de hábito ajudam a utilizar a
+                energia com mais eficiência.
+            </p>
+
+            <div class="cards">
+
+                <article class="card">
+                    <div class="icone">💡</div>
+                    <h3>Iluminação</h3>
+
+                    <p>
+                        Aproveite a luz natural e apague as lâmpadas
+                        quando não forem necessárias. Prefira lâmpadas
+                        eficientes, como as de LED.
+                    </p>
+                </article>
+
+                <article class="card">
+                    <div class="icone">🚿</div>
+                    <h3>Chuveiro elétrico</h3>
+
+                    <p>
+                        Evite banhos demorados. O tempo de uso e a
+                        potência do chuveiro influenciam diretamente
+                        o consumo.
+                    </p>
+                </article>
+
+                <article class="card">
+                    <div class="icone">❄️</div>
+                    <h3>Ar-condicionado</h3>
+
+                    <p>
+                        Mantenha os filtros limpos, feche portas e
+                        janelas e utilize uma temperatura adequada.
+                    </p>
+                </article>
+
+                <article class="card">
+                    <div class="icone">🧊</div>
+                    <h3>Geladeira</h3>
+
+                    <p>
+                        Evite abrir a porta repetidamente e verifique
+                        se a vedação está em boas condições.
+                    </p>
+                </article>
+
+                <article class="card">
+                    <div class="icone">🧺</div>
+                    <h3>Máquina de lavar</h3>
+
+                    <p>
+                        Organize as lavagens e utilize a capacidade
+                        recomendada pelo fabricante.
+                    </p>
+                </article>
+
+                <article class="card">
+                    <div class="icone">🔌</div>
+                    <h3>Eletrônicos</h3>
+
+                    <p>
+                        Desligue equipamentos quando não estiverem
+                        sendo utilizados. Alguns aparelhos consomem
+                        energia mesmo em modo de espera.
+                    </p>
+                </article>
+
+            </div>
+
+            <div class="destaque">
+                <h3>Descubra o consumo dos seus aparelhos</h3>
+
+                <p>
+                    Utilize a calculadora para estimar o consumo
+                    mensal de um eletrodoméstico.
+                </p>
+
+                <button type="button" class="botao"
+                    onclick="abrirPagina('calculadora')">
+                    Ir para a calculadora
+                </button>
+            </div>
+        </section>
+
+        <!-- PÁGINA: CALCULADORA -->
+        <section id="calculadora" class="pagina">
+            <h2>Calculadora de energia elétrica</h2>
+
+            <p class="introducao">
+                Informe os dados de um eletrodoméstico para estimar
+                seu consumo mensal em kWh e seu custo aproximado.
+            </p>
+
+            <div class="calculadora">
+                <form id="formCalculadora">
+
+                    <div class="campo">
+                        <label for="aparelho">
+                            Nome do eletrodoméstico
+                        </label>
+
+                        <select id="aparelho">
+                            <option value="Personalizado">
+                                Escolher aparelho...
+                            </option>
+                            <option value="Chuveiro elétrico">
+                                Chuveiro elétrico
+                            </option>
+                            <option value="Geladeira">Geladeira</option>
+                            <option value="Ar-condicionado">
+                                Ar-condicionado
+                            </option>
+                            <option value="Televisão">Televisão</option>
+                            <option value="Máquina de lavar">
+                                Máquina de lavar
+                            </option>
+                            <option value="Ferro de passar">
+                                Ferro de passar
+                            </option>
+                            <option value="Computador">Computador</option>
+                            <option value="Ventilador">Ventilador</option>
+                            <option value="Lâmpada LED">Lâmpada LED</option>
+                        </select>
+                    </div>
+
+                    <div class="campo">
+                        <label for="potencia">
+                            Potência do aparelho (Watts)
+                        </label>
+
+                        <input type="number" id="potencia"
+                            min="0.01" step="any"
+                            placeholder="Ex.: 1500" required>
+                    </div>
+
+                    <div class="campo">
+                        <label for="quantidade">
+                            Quantidade de aparelhos
+                        </label>
+
+                        <input type="number" id="quantidade"
+                            min="1" step="1" value="1" required>
+                    </div>
+
+                    <div class="campo">
+                        <label for="horas">
+                            Horas de uso por dia
+                        </label>
+
+                        <input type="number" id="horas"
+                            min="0" max="24" step="any"
+                            placeholder="Ex.: 5" required>
+                    </div>
+
+                    <div class="campo">
+                        <label for="dias">
+                            Dias de uso por mês
+                        </label>
+
+                        <input type="number" id="dias"
+                            min="1" max="31" step="1"
+                            value="30" required>
+                    </div>
+
+                    <div class="campo">
+                        <label for="tarifa">
+                            Valor do kWh (R$)
+                        </label>
+
+                        <input type="number" id="tarifa"
+                            min="0" step="any"
+                            value="0.90" required>
+
+                        <p class="nota">
+                            R$ 0,90 é um valor de exemplo.
+                            Informe o valor adequado à sua conta.
+                        </p>
+                    </div>
+
+                    <button type="submit" class="botao">
+                        Calcular consumo
+                    </button>
+
+                    <button type="reset" class="botao"
+                        style="background:#e1e8e3">
+                        Limpar
+                    </button>
+                </form>
+
+                <div id="resultado" class="resultado"
+                    aria-live="polite">
+
+                    <h3>Resultado estimado</h3>
+
+                    <p id="nomeResultado"></p>
+
+                    <p>Consumo mensal:</p>
+                    <p class="valor" id="consumoResultado"></p>
+
+                    <p>Custo mensal estimado:</p>
+                    <p class="valor" id="custoResultado"></p>
+
+                    <p class="nota" id="detalhesResultado"></p>
+
+                    <p class="nota">
+                        Esta é uma estimativa. O consumo real pode
+                        variar conforme o funcionamento do aparelho
+                        e as condições de uso. A conta de luz também
+                        pode incluir impostos, tarifas e outros encargos.
+                    </p>
+                </div>
+            </div>
+
+            <div class="destaque">
+                <h3>Como funciona o cálculo?</h3>
+
+                <p>
+                    Consumo mensal (kWh) = potência (W) ÷ 1.000
+                    × quantidade × horas por dia × dias por mês.
+                </p>
+
+                <p>
+                    Custo estimado = consumo mensal × valor do kWh.
+                </p>
+            </div>
+        </section>
+
+        <!-- PÁGINA: REFERÊNCIAS -->
+        <section id="referencias" class="pagina">
+            <h2>Fontes e referências</h2>
+
+            <p class="introducao">
+                Consulte instituições oficiais para aprofundar
+                seus conhecimentos sobre energia elétrica e
+                eficiência energética.
+            </p>
+
+            <div class="cards">
+
+                <article class="card">
+                    <div class="icone">🏛️</div>
+                    <h3>ANEEL</h3>
+
+                    <p>
+                        Agência Nacional de Energia Elétrica.
+                    </p>
+
+                    <a class="link-externo"
+                        href="https://www.gov.br/aneel/pt-br"
+                        target="_blank"
+                        rel="noopener noreferrer">
+                        Acessar site oficial ↗
+                    </a>
+                </article>
+
+                <article class="card">
+                    <div class="icone">💡</div>
+                    <h3>PROCEL</h3>
+
+                    <p>
+                        Programa Nacional de Conservação de
+                        Energia Elétrica.
+                    </p>
+
+                    <a class="link-externo"
+                        href="https://www.gov.br/mme/pt-br/assuntos/ee/procel"
+                        target="_blank"
+                        rel="noopener noreferrer">
+                        Acessar página do Procel ↗
+                    </a>
+                </article>
+
+                <article class="card">
+                    <div class="icone">⚙️</div>
+                    <h3>INMETRO</h3>
+
+                    <p>
+                        Informações sobre produtos e eficiência.
+                    </p>
+
+                    <a class="link-externo"
+                        href="https://www.gov.br/inmetro/pt-br"
+                        target="_blank"
+                        rel="noopener noreferrer">
+                        Acessar site oficial ↗
+                    </a>
+                </article>
+
+                <article class="card">
+                    <div class="icone">🌱</div>
+                    <h3>Ministério de Minas e Energia</h3>
+
+                    <p>
+                        Informações sobre o setor energético brasileiro.
+                    </p>
+
+                    <a class="link-externo"
+                        href="https://www.gov.br/mme/pt-br"
+                        target="_blank"
+                        rel="noopener noreferrer">
+                        Acessar site oficial ↗
+                    </a>
+                </article>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p><strong>⚡ Energia Consciente</strong></p>
+        <p>Informação para transformar hábitos.</p>
+        <p>Projeto educativo sobre uso racional de energia elétrica.</p>
+    </footer>
+
+    <script>
+        // NAVEGAÇÃO: exibe somente a página selecionada
+        function abrirPagina(id) {
+            const paginas = document.querySelectorAll(".pagina");
+            const botoes = document.querySelectorAll("nav button");
+
+            // Esconde todas as páginas
+            paginas.forEach(function(pagina) {
+                pagina.classList.remove("ativa");
+            });
+
+            // Remove o destaque dos botões do menu
+            botoes.forEach(function(botao) {
+                botao.classList.remove("ativo");
+            });
+
+            // Localiza a página solicitada
+            const paginaSelecionada = document.getElementById(id);
+
+            // Impede que um ID inválido seja exibido
+            if (
+                !paginaSelecionada ||
+                !paginaSelecionada.classList.contains("pagina")
+            ) {
+                return;
+            }
+
+            // Exibe somente a página escolhida
+            paginaSelecionada.classList.add("ativa");
+
+            // Destaca o botão correspondente no menu
+            const botaoSelecionado = document.querySelector(
+                'nav button[data-pagina="' + id + '"]'
+            );
+
+            if (botaoSelecionado) {
+                botaoSelecionado.classList.add("ativo");
+            }
+
+            // O destaque principal aparece apenas no início
+            const destaque = document.getElementById("destaqueInicio");
+
+            if (destaque) {
+                destaque.style.display =
+                    id === "inicio" ? "block" : "none";
+            }
+
+            // Volta ao topo
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        }
+
+        // Configura os botões do menu
+        document.querySelectorAll("nav button").forEach(function(botao) {
+            botao.addEventListener("click", function() {
+                abrirPagina(botao.dataset.pagina);
+            });
+        });
+
+        // CALCULADORA DE ENERGIA ELÉTRICA
+        document.getElementById("formCalculadora")
+            .addEventListener("submit", function(evento) {
+
+                evento.preventDefault();
+
+                const aparelho =
+                    document.getElementById("aparelho").value;
+
+                const potencia =
+                    Number(document.getElementById("potencia").value);
+
+                const quantidade =
+                    Number(document.getElementById("quantidade").value);
+
+                const horas =
+                    Number(document.getElementById("horas").value);
+
+                const dias =
+                    Number(document.getElementById("dias").value);
+
+                const tarifa =
+                    Number(document.getElementById("tarifa").value);
+
+                // Validação dos dados
+                if (
+                    !Number.isFinite(potencia) ||
+                    !Number.isFinite(quantidade) ||
+                    !Number.isFinite(horas) ||
+                    !Number.isFinite(dias) ||
+                    !Number.isFinite(tarifa) ||
+                    potencia <= 0 ||
+                    quantidade < 1 ||
+                    !Number.isInteger(quantidade) ||
+                    horas < 0 ||
+                    horas > 24 ||
+                    dias < 1 ||
+                    dias > 31 ||
+                    !Number.isInteger(dias) ||
+                    tarifa < 0
+                ) {
+                    alert("Confira os valores informados e tente novamente.");
+                    return;
+                }
+
+                // Calcula o consumo mensal em kWh
+                const consumo =
+                    (potencia / 1000) *
+                    quantidade *
+                    horas *
+                    dias;
+
+                // Calcula o custo estimado
+                const custo = consumo * tarifa;
+
+                document.getElementById("nomeResultado").textContent =
+                    "Aparelho: " + aparelho;
+
+                document.getElementById("consumoResultado").textContent =
+                    consumo.toLocaleString("pt-BR", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    }) + " kWh/mês";
+
+                document.getElementById("custoResultado").textContent =
+                    custo.toLocaleString("pt-BR", {
+                        style: "currency",
+                        currency: "BRL"
+                    });
+
+                document.getElementById("detalhesResultado").textContent =
+                    quantidade + " aparelho(s), " +
+                    potencia + " W cada, usados " +
+                    horas + " hora(s) por dia durante " +
+                    dias + " dia(s).";
+
+                // Exibe o resultado após o cálculo
+                document.getElementById("resultado").style.display = "block";
+            });
+
+        // Esconde o resultado quando o formulário é limpo
+        document.getElementById("formCalculadora")
+            .addEventListener("reset", function() {
+                document.getElementById("resultado").style.display = "none";
+            });
+    </script>
+
+</body>
+</html>
